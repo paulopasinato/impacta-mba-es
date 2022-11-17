@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  nginx:
+    container_name: nginx-container
+    image: nginx:latest
+    ports:
+      - 80:80
+    networks:
+      - nginx_mysql
+
+  mysql:
+    container_name: mysql-container
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - nginx_mysql
+
+networks:
+  nginx_mysql:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
